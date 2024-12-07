@@ -44,3 +44,26 @@ void sort(short* x, double* y, int n) {
         }
     }
 }
+
+void init(short x0, short x1, short* population, double* f, int n) {
+    for (int i = 0; i < n; i++) {
+        population[i] = mutation(x0, x1);
+        f[i] = func(population[i]);
+    }
+}
+
+short genetic(short x0, short x1, short* population, double* f, int n) {
+    init(x0, x1, population, f, n);
+    sort(population, f, n);
+
+    int iter = 0;
+    while (f[0] != 0 && iter < 50000) {
+        iter++;
+        crossover(population, x0, x1);
+        for (int i = 0; i < n; i++) {
+            f[i] = func(population[i]);
+        }
+        sort(population, f, n);
+    }
+    return population[0];
+}
